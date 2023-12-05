@@ -10,7 +10,6 @@ import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
 import io.quarkus.test.junit.QuarkusTest;
 
-// tag::include[]
 @Provider("Farm") // <1>
 @PactFolder("pacts")
 @QuarkusTest
@@ -31,4 +30,3 @@ public class SimpleContractTest {
         context.verifyInteraction();
     }
 }
-// end::include[]

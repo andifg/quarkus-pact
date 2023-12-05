@@ -15,7 +15,7 @@ For instance, with Maven, add the following dependency to your POM file:
 [source,xml,subs=attributes+]
 ----
 <dependency>
-    <groupId>io.quarkiverse</groupId>
+    <groupId>io.quarkiverse.pact</groupId>
     <artifactId>quarkus-pact-consumer</artifactId>
     <version>{project-version}</version>
     <scope>test</scope>
@@ -31,10 +31,10 @@ For example, a simple consumer test for REST endpoints would look like this:
 
 [source,java]
 ----
-include::{examples-dir}/consumer/ConsumerTest.java[tag=include]
+include::{examples-dir}/consumer/ConsumerTest.java[]
 ----
 
-<1> Add `@Consumer` annotations to the class, along with metadata about who the consumer is, and what provider is being used.
+<1> Add necessary annotations to the class. This defines the provider mock as well as the target directory for the generated pact file.
 <2> The consumer under test.
 <3> This defines what the body of the request could look like; we are generic and say it can be anything that meets the schema.
 We could be stricter and put more expectations on what the consumer sends.
@@ -42,7 +42,9 @@ We could be stricter and put more expectations on what the consumer sends.
 <5> Here we define our mock, which is also our expectations for the provider.
 There is no need to verify these in this test; instead, the provider test will verify them.
 <6> This test is realistic (in a simplified way) of how a consumer test might look.
-<7> We have hardcoded the mock response, so the colour parameter we pass in is irrelevant (for this particular test) It tests how the consumer under test uses what the mock passes back, *not* the mock itself.
+<7> We have hardcoded the mock response, so the colour parameter we pass in is irrelevant (for this particular test).
+It tests how the consumer transforms the data that the mock passes back, when the consumer calls it, *not* the mock itself. The mock needs to get 
+called via a rest call from inside the knit method.
 
 [[extension-configuration-reference]]
 == Extension Configuration Reference

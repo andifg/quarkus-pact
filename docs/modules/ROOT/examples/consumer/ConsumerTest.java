@@ -19,7 +19,6 @@ import au.com.dius.pact.core.model.annotations.Pact;
 import au.com.dius.pact.core.model.annotations.PactDirectory;
 import io.quarkus.test.junit.QuarkusTest;
 
-// tag::include[]
 // <1>
 @ExtendWith(PactConsumerTestExt.class)
 @PactTestFor(providerName = "farm", port = "8085")
@@ -33,16 +32,21 @@ public class ConsumerTest {
 
     @Pact(provider = "farm", consumer = "knitter")
     public V4Pact createPact(PactDslWithProvider builder) {
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "application/json");
+
+        Map<String, String> requestHeaders = new HashMap<>();
+        requestHeaders.put("Accept", "application/json");
+
+        Map<String, String> responseHeaders = new HashMap<>();
+        responseHeaders.put("Content-Type", "application/json");
 
         var requestBody = newJsonBody(body -> body.stringType("colour").numberType("orderNumber")).build(); // <3>
 
         var woolResponseBody = newJsonBody(body -> body.stringValue("colour", "white")).build(); // <4>
 
         // <5>
-        return builder.uponReceiving("post request").path("/wool/order").headers(headers).method(HttpMethod.POST)
-                .body(requestBody).willRespondWith().status(Status.OK.getStatusCode()).headers(headers).body(woolResponseBody)
+        return builder.uponReceiving("post request").path("/wool/order").headers(requestHeaders).method(HttpMethod.POST)
+                .body(requestBody).willRespondWith().status(Status.OK.getStatusCode()).headers(responseHeaders)
+                .body(woolResponseBody)
                 .toPact(V4Pact.class);
 
     }
@@ -50,7 +54,6 @@ public class ConsumerTest {
     @Test
     public void testConsumption() { //<6>
         String knitted = knitter.knit("irrelevant"); // <7>
-        assertEquals("a nice striped sweater", knitted);
+        assertEquals("a nice white sweater", knitted);
     }
 }
-// end::include[]

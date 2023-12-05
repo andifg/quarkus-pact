@@ -14,7 +14,7 @@ Choose a 1.x version for Quarkus 3, and a 0.x version for Quarkus 2.
 [source,xml,subs=attributes+]
 ----
 <dependency>
-    <groupId>io.quarkiverse</groupId>
+    <groupId>io.quarkiverse.pact</groupId>
     <artifactId>quarkus-pact-provider</artifactId>
     <version>{project-version}</version>
     <scope>test</scope>
@@ -28,7 +28,7 @@ For example, a simple provider test for REST endpoints would look like this:
 
 [source,java]
 ----
-include::{examples-dir}/provider/SimpleContractTest.java[tag=include]
+include::{examples-dir}/provider/SimpleContractTest.java[]
 ----
 
 <1> Add `@Provider` annotations to the class, along with instructions where to find the pacts (a folder or a broker).
